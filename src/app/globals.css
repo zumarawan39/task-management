@@ -1,26 +1,429 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* DevFlow tokens. Neutral surfaces, one indigo brand, coral reserved for running time.
+   Every screen reads these, so the theme switch is one class. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fcfcfd;
+  --side: #f7f7f9;
+  --lane: #f3f3f6;
+  --card: #ffffff;
+  --sunk: #f1f1f4;
+  --hover: #ececf1;
+  --fg: #17171c;
+  --fg2: #4b4b57;
+  --fg3: #6c6c79;
+  --bd: #e6e6ec;
+  --bd2: #d5d5de;
+  --brand: #5b5bd6;
+  --brand-fg: #ffffff;
+  --brand-soft: #eeeefd;
+  --brand-ink: #4343b8;
+  --accent: #c2410c;
+  --accent-fill: #f97316;
+  --accent-soft: #fff1e6;
+  --focus: #5b5bd6;
+  --scrim: rgba(15, 15, 25, 0.36);
+  --sh1: 0 1px 2px rgba(16, 16, 32, 0.05), 0 1px 3px rgba(16, 16, 32, 0.04);
+  --sh2: 0 8px 24px rgba(16, 16, 32, 0.1), 0 2px 6px rgba(16, 16, 32, 0.06);
+  --p-low: #8a8a96;
+  --p-med: #2f6fdb;
+  --p-high: #c2780a;
+  --p-urg: #dc3545;
+  --p-urg-soft: #fdecee;
+  --ok: #1f8a4c;
+  --ok-soft: #e7f6ed;
+  --warn: #a15c07;
+  --warn-soft: #fef5e1;
+  --pj-plat: #5b5bd6;
+  --pj-api: #1f8a4c;
+  --pj-fe: #b83ab0;
+  --pj-infra: #c2780a;
+  --pj-docs: #2f6fdb;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0f0f13;
+  --side: #0b0b0e;
+  --lane: #15151b;
+  --card: #1b1b22;
+  --sunk: #22222b;
+  --hover: #272731;
+  --fg: #ececf1;
+  --fg2: #a9a9b6;
+  --fg3: #82828f;
+  --bd: #26262f;
+  --bd2: #35353f;
+  --brand: #8b8bf5;
+  --brand-fg: #0f0f13;
+  --brand-soft: #23234a;
+  --brand-ink: #b4b4ff;
+  --accent: #fb923c;
+  --accent-fill: #f97316;
+  --accent-soft: #3a2010;
+  --focus: #8b8bf5;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --sh1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --sh2: 0 12px 32px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
+  --p-low: #8a8a96;
+  --p-med: #6ea8ff;
+  --p-high: #f0b44c;
+  --p-urg: #ff6b6b;
+  --p-urg-soft: #3a1a1c;
+  --ok: #4ade80;
+  --ok-soft: #13301f;
+  --warn: #fbbf24;
+  --warn-soft: #33280e;
+  --pj-plat: #8b8bf5;
+  --pj-api: #4ade80;
+  --pj-fe: #e879f9;
+  --pj-infra: #f0b44c;
+  --pj-docs: #6ea8ff;
+  color-scheme: dark;
+}
+
+/* Earlier token names, kept so board components follow the same palette. */
+:root,
+.dark {
+  --paper: var(--bg);
+  --ink: var(--fg);
+  --muted: var(--fg2);
+  --line: var(--bd);
+  --rail: var(--side);
+  --pine: var(--brand);
+  --pine-soft: var(--brand-soft);
+  --steel: var(--p-med);
+  --amber: var(--warn);
+  --signal: var(--p-urg);
+  --shadow: var(--sh2);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg: var(--bg);
+  --color-side: var(--side);
+  --color-lane: var(--lane);
+  --color-card: var(--card);
+  --color-sunk: var(--sunk);
+  --color-hover: var(--hover);
+  --color-fg: var(--fg);
+  --color-fg2: var(--fg2);
+  --color-fg3: var(--fg3);
+  --color-bd: var(--bd);
+  --color-bd2: var(--bd2);
+  --color-brand: var(--brand);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-accent-soft: var(--accent-soft);
+  --color-focus: var(--focus);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-urg: var(--p-urg);
+  --color-urg-soft: var(--p-urg-soft);
+  --color-p-low: var(--p-low);
+  --color-p-med: var(--p-med);
+  --color-p-high: var(--p-high);
+  --color-p-urg: var(--p-urg);
+  --color-p-urg-soft: var(--p-urg-soft);
+  --color-pj-plat: var(--pj-plat);
+  --color-pj-api: var(--pj-api);
+  --color-pj-fe: var(--pj-fe);
+  --color-pj-infra: var(--pj-infra);
+  --color-pj-docs: var(--pj-docs);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-rail: var(--rail);
+  --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
+  --color-steel: var(--steel);
+  --color-amber: var(--amber);
+  --color-signal: var(--signal);
+
+  --font-sans: var(--font-mona), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-mona), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --shadow-1: var(--sh1);
+  --shadow-2: var(--sh2);
+  --shadow-ring: 0 0 0 3px color-mix(in srgb, var(--focus) 18%, transparent);
+  --shadow-focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --animate-sweep: sweep 1.2s var(--ease-out) infinite;
+  --animate-fade-in: fade-in 240ms var(--ease-out);
+  --animate-fade-out: fade-out 180ms var(--ease-out);
+  --animate-slide-in-right: slide-in-right 240ms var(--ease-out);
+  --animate-slide-out-right: slide-out-right 180ms var(--ease-out);
+  --animate-slide-in-up: slide-in-up 240ms var(--ease-out);
+  --animate-slide-out-down: slide-out-down 180ms var(--ease-out);
+  --animate-pop-in: pop-in 180ms var(--ease-out);
+
+  @keyframes sweep {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+  @keyframes fade-out {
+    to { opacity: 0; }
+  }
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+  }
+  @keyframes slide-out-right {
+    to { transform: translateX(100%); }
+  }
+  @keyframes slide-in-up {
+    from { transform: translateY(100%); }
+  }
+  @keyframes slide-out-down {
+    to { transform: translateY(100%); }
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--brand) 25%, transparent);
+}
+
+/* In the components layer so utilities like hidden / md:inline-block can override them. */
+@layer components {
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg3);
+  }
+
+  .kbd {
+    display: inline-block;
+    min-width: 18px;
+    padding: 0 5px;
+    border: 1px solid var(--bd2);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    background: var(--sunk);
+    color: var(--fg2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 18px;
+    text-align: center;
+  }
+}
+
+/* Notes editor */
+.notes-editor {
+  min-height: 180px;
+  outline: none;
+}
+
+.notes-editor p {
+  margin: 0.45em 0;
+}
+
+.notes-editor ul,
+.notes-editor ol {
+  margin: 0.4em 0;
+  padding-left: 1.25rem;
+}
+
+.notes-editor ul {
+  list-style: disc;
+}
+
+.notes-editor ol {
+  list-style: decimal;
+}
+
+.notes-editor h2,
+.notes-editor h3 {
+  margin: 0.9em 0 0.2em;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.notes-editor code {
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--sunk);
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+}
+
+.notes-editor pre {
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: var(--lane);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.notes-editor pre code {
+  padding: 0;
+  background: none;
+}
+
+.notes-editor a {
+  color: var(--brand-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.notes-editor ul[data-type="taskList"] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.notes-editor ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.notes-editor ul[data-type="taskList"] li > label {
+  display: flex;
+  padding-top: 0.3em;
+  user-select: none;
+}
+
+.notes-editor ul[data-type="taskList"] li > div {
+  flex: 1;
+}
+
+.notes-editor ul[data-type="taskList"] li > div p {
+  margin: 0;
+}
+
+.notes-editor ul[data-type="taskList"] input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--ok);
+  cursor: pointer;
+}
+
+.notes-editor ul[data-type="taskList"] li[data-checked="true"] > div {
+  color: var(--fg3);
+  text-decoration: line-through;
+}
+
+.notes-editor p.is-editor-empty:first-child::before {
+  float: left;
+  height: 0;
+  color: var(--fg3);
+  content: attr(data-placeholder);
+  pointer-events: none;
+}
+
+/* Command palette */
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--scrim);
+}
+
+[cmdk-dialog] {
+  position: fixed;
+  z-index: 61;
+  top: 120px;
+  left: 50%;
+  width: min(640px, calc(100% - 2rem));
+  overflow: hidden;
+  transform: translateX(-50%);
+  border: 1px solid var(--bd2);
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: var(--sh2);
+  color: var(--fg);
+}
+
+[cmdk-input] {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font-size: 16px;
+  outline: none;
+}
+
+[cmdk-input]::placeholder {
+  color: var(--fg3);
+}
+
+[cmdk-list] {
+  max-height: min(420px, 60vh);
+  overflow: auto;
+  padding: 6px;
+}
+
+[cmdk-group-heading] {
+  padding: 10px 10px 6px;
+  color: var(--fg3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+[cmdk-item] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+[cmdk-item][data-selected="true"] {
+  background: var(--hover);
+}
+
+[cmdk-empty] {
+  padding: 14px 10px;
+  color: var(--fg3);
+  font-size: 13.5px;
+}
+
+/* Reduced motion: fades only, no slides or tilt. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+  .motion-slide {
+    animation-name: fade-in !important;
+  }
+  .motion-slide[data-state="closed"] {
+    animation-name: fade-out !important;
+  }
+  .motion-tilt {
+    transform: none !important;
+  }
 }
